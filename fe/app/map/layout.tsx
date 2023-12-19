@@ -1,8 +1,5 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
-import { env } from 'process';
-import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -12,12 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const mapSrc = `"https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${env.client_id}"`;
   return (
     <html lang="en">
-      <head>
-        <Script strategy="beforeInteractive" src={mapSrc} />
-      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );
