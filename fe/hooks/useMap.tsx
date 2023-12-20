@@ -3,7 +3,7 @@ import useSWR, { mutate } from 'swr';
 import type { NaverMap, Coordinates } from '../types/map';
 
 export const INITIAL_CENTER: Coordinates = [37.5262411, 126.99289439];
-export const INITIAL_ZOOM = 10;
+export const INITIAL_ZOOM = 13;
 
 export const MAP_KEY = '/map';
 
@@ -22,6 +22,7 @@ const useMap = () => {
     const mapCenter = map.getCenter();
     const center: Coordinates = [mapCenter.lat(), mapCenter.lng()];
     const zoom = map.getZoom();
+    console.log('zoom', zoom);
 
     return { center, zoom };
   }, [map]);
