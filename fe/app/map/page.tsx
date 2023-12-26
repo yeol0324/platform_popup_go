@@ -3,7 +3,7 @@
 // import ClientPage from './page.client';
 import { Map } from '@/components/Map';
 
-export default async function List() {
+export default function List() {
   return (
     <div className="map-home">
       <Map />
