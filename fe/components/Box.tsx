@@ -1,4 +1,6 @@
-// import { twMerge } from "tailwind-merge";
+'use client';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 interface BoxProps {
   children: React.ReactNode;
@@ -6,7 +8,8 @@ interface BoxProps {
 }
 
 const Box: React.FC<BoxProps> = ({ children, className }) => {
-  return <div>{children}</div>;
+  const Div = styled.div({ backgroundColor: 'pink', fontSize: '4rem' });
+  return <Div>{children}</Div>;
 };
 
 export default Box;

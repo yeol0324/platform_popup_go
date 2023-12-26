@@ -24,3 +24,8 @@
 - axios : axios custom
 - common : common functions
 - data : date functions
+
+## styles
+
+- emotion
+- styles/global.tsx
