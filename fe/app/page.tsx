@@ -8,6 +8,9 @@ export default function Home() {
       <Link href="/map/" className="flex" style={{ fontSize: '10rem' }}>
         map
       </Link>
+      <Link href="/calendar/" className="flex" style={{ fontSize: '10rem' }}>
+        calendar
+      </Link>
       <Box>hh</Box>
       {/* <Input>
         <Input.Label>
