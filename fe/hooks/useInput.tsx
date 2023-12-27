@@ -1,13 +1,22 @@
-import { useState, useCallback, SetStateAction, Dispatch } from 'react';
-
-type ReturnType<T> = [T, (e: any) => void, Dispatch<SetStateAction<T>>];
-
-const useInput = <T extends string>(initialValue: T): ReturnType<T> => {
-  const [value, setValue] = useState<T>(initialValue);
-  const handler = useCallback((e: any) => {
-    setValue(e.target.value);
-  }, []);
-  return [value, handler, setValue];
-};
+'use client';
+import React, { useState } from 'react';
+type ReturnType = [
+  string,
+  { value: string; onChange: (event: React.ChangeEvent<HTMLInputElement>) => void },
+  () => void
+];
+function useInput(initialValue: string): ReturnType {
+  const [value, setValue] = useState(initialValue);
+  const reset = () => {
+    setValue(initialValue);
+  };
+  const bind = {
+    value,
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(event.target?.value);
+    },
+  };
+  return [value, bind, reset];
+}
 
 export default useInput;
