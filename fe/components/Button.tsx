@@ -15,6 +15,14 @@ const RoundButton = ({ size = 'default', themeId, isBorder, children }: Props) =
     border: '0px',
     fontSize: '2rem',
   });
-  return <Button>{children}</Button>;
+  return (
+    <Button
+      onClick={() => {
+        alert();
+      }}
+    >
+      {children}
+    </Button>
+  );
 };
 export default RoundButton;
