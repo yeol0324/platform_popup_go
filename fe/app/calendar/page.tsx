@@ -1,4 +1,4 @@
-import { MyCalendar } from '@/components/MyCalendar';
+import { MyCalendar } from '@/components/Calendar/MyCalendar';
 import React from 'react';
 
 export default function List() {
