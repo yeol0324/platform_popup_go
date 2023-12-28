@@ -46,6 +46,24 @@ export const Map = ({ mapId = 'map', initialCenter = [37.5262411, 126.99289439],
         });
       });
 
+      // // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
+      // function getClickHandler(seq: number) {
+      //   return function (e: any) {
+      //     console.log(e);
+
+      //     // var marker = markers[seq],
+      //     //   infoWindow = infoWindows[seq];
+
+      //     // if (infoWindow.getMap()) {
+      //     //   infoWindow.close();
+      //     // } else {
+      //     //   infoWindow.open(map, marker);
+      //     // }
+      //   };
+      // }
+
+      // markerRef.current.map(marker => naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i)));
+
       mapRef.current = map;
 
       if (onLoad) {
