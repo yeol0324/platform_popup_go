@@ -1,8 +1,8 @@
 'use client';
 import Script from 'next/script';
 import { useEffect, useRef, useState } from 'react';
-import { NaverMap, NaverMapMarker, Coordinates } from '@/types/map';
-
+import { NaverMap, NaverMapMarker, NaverMapInfoWindow, Coordinates } from '@/types/map';
+import Box from './Box';
 type Props = {
   mapId?: string;
   initialCenter?: Coordinates;
@@ -11,7 +11,8 @@ type Props = {
 };
 export const Map = ({ mapId = 'map', initialCenter = [37.5262411, 126.99289439], initialZoom = 13, onLoad }: Props) => {
   const mapRef = useRef<NaverMap | null>(null);
-  const markerRef = useRef<NaverMapMarker | null>(null);
+  const markerRef = useRef<NaverMapMarker[]>([]);
+  const infoWindowRef = useRef<NaverMapInfoWindow[]>([]);
 
   const getCoords = async () => {
     if (typeof window == 'undefined') return null;
@@ -31,38 +32,40 @@ export const Map = ({ mapId = 'map', initialCenter = [37.5262411, 126.99289439],
         mapDataControl: false,
         zoomControl: true,
       };
+      const popups = [
+        { lat: pos.coords.latitude, long: pos.coords.longitude, name: '현재위치', id: 'd0101' },
+        { lat: 37.51257481796187, long: 127.10554161154047, name: '롯데월드', id: 'd0102' },
+      ];
       //새로운 네이버 맵 인스턴스 생성
       const map = new window.naver.maps.Map(mapId, mapOptions);
-      const popups = [
-        { lat: pos.coords.latitude, long: pos.coords.longitude },
-        { lat: 37.51257481796187, long: 127.10554161154047 },
-        { lat: pos.coords.latitude - 3, long: pos.coords.longitude - 3 },
-      ];
 
-      popups.map((item: { lat: number; long: number }) => {
-        markerRef.current = new naver.maps.Marker({
-          position: new naver.maps.LatLng(item?.lat, item?.long),
-          map: map,
+      popups.map((item: { lat: number; long: number; name: string; id: string }) => {
+        markerRef.current.push(
+          new naver.maps.Marker({
+            position: new naver.maps.LatLng(item?.lat, item?.long),
+            map: map,
+            title: item.name,
+          })
+        );
+        const infoWindow = new naver.maps.InfoWindow({
+          content: `<div key=${item.id}>${item.name}<a href="/popup/${item.id}">상세페이지</a></div>`,
         });
+        infoWindowRef.current.push(infoWindow);
       });
-
-      // // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
-      // function getClickHandler(seq: number) {
-      //   return function (e: any) {
-      //     console.log(e);
-
-      //     // var marker = markers[seq],
-      //     //   infoWindow = infoWindows[seq];
-
-      //     // if (infoWindow.getMap()) {
-      //     //   infoWindow.close();
-      //     // } else {
-      //     //   infoWindow.open(map, marker);
-      //     // }
-      //   };
-      // }
-
-      // markerRef.current.map(marker => naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i)));
+      function getClickHandler(seq: number) {
+        return function (e: NaverMapMarker) {
+          var marker = markerRef.current[seq];
+          if (infoWindowRef.current[seq].getMap()) {
+            infoWindowRef.current[seq].close();
+          } else {
+            infoWindowRef.current[seq].open(map, marker);
+          }
+        };
+      }
+      // add marker click event
+      markerRef.current.forEach((element, i) => {
+        naver.maps.Event.addListener(element, 'click', getClickHandler(i));
+      });
 
       mapRef.current = map;
 
@@ -81,13 +84,13 @@ export const Map = ({ mapId = 'map', initialCenter = [37.5262411, 126.99289439],
 
   return (
     <>
+      <div id={mapId} style={{ width: '500px', height: '500px' }} />
       <Script
         strategy="afterInteractive"
         type="text/javascript"
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
         onReady={initializeMap}
       />
-      <div id={mapId} style={{ width: '500px', height: '500px' }} />
     </>
   );
 };
