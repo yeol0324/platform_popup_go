@@ -1,10 +1,5 @@
 import { Theme } from '@emotion/react';
 
-const color = {
-  primary: '#FFC600',
-  'primary-light': '#fdf4da',
-  'primary-dark': '#b39e00',
-};
 const palette = {
   // teal
   teal0: '#F3FFFB',
@@ -15,18 +10,33 @@ const palette = {
   // red
   red0: '#FFF5F5',
   red1: '#FFE3E3',
+  // TODO: 정리
+  black: '#000',
+  dark: '#191a20',
+  primary: '#3f4150',
+  secondary: '#8c8d96',
+  // calendar
+  sun: 'red',
+  sat: 'blue',
+};
+const typography = {
+  title1: {
+    fontFamily: 'Noto Sans KR',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    fontSize: '24px',
+    lineHeight: '24px',
+  },
+  title2: {},
+  title3: {},
+  body1: {},
+  body2: {},
+  caption: {},
+  small: {},
 };
 const theme: Theme = {
-  theme01: {
-    background: palette.gray1,
-    color: palette.red0,
-    hoverBackground: palette.gray0,
-  },
-  theme02: {
-    background: palette.teal0,
-    color: palette.red1,
-    hoverBackground: palette.teal1,
-  },
+  palette,
+  typography,
 };
 
 export default theme;

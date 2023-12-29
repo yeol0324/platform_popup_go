@@ -18,7 +18,7 @@ export default function Home() {
         </Input.Label> */}
         <Input.TextField></Input.TextField>
       </Input>
-      <Button themeId="theme01">버튼</Button>
+      <Button>버튼</Button>
     </div>
   );
 }
