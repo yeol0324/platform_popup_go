@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import ThemesProvider from './theme-provider';
-import Header from '@/components/Layout/Header';
+import Footer from '@/components/Layout/Footer';
 
 export const metadata: Metadata = {
   title: '팝업스토어 정보',
@@ -12,8 +12,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <ThemesProvider>
-          <Header />
           {children}
+          <Footer />
         </ThemesProvider>
       </body>
     </html>

@@ -1,15 +1,15 @@
 'use client';
-import theme from '@/styles/theme';
 import styled from '@emotion/styled';
+import theme from '@/styles/theme';
 interface Props {
   size?: 'small' | 'default' | 'large';
   isBorder?: boolean;
   children: React.ReactNode;
 }
+const Button = styled.button({
+  background: theme.palette.primary,
+});
 const RoundButton = ({ size = 'default', isBorder, children }: Props) => {
-  const Button = styled.button({
-    background: theme.palette.primary,
-  });
   return (
     <Button
       onClick={() => {
