@@ -10,7 +10,6 @@ import CalendarPopup from './CalendarPopup';
 import dayjs from 'dayjs';
 import MyEvent from './MyEvent';
 import eventDummy from '../../public/dummy/event.json';
-import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
 export const MyCalendar = () => {
@@ -27,10 +26,9 @@ export const MyCalendar = () => {
     dummys.map(dummy => {
       events.push({
         id: dummy.id,
-        title: dummy.title,
-        start: new Date(dummy.start),
-        end: new Date(dummy.end),
-        isAllDay: dummy.isAllDay,
+        title: dummy.popup_name,
+        start: new Date(dummy.popup_sdtm),
+        end: new Date(dummy.popup_edtm),
       });
     });
   }
@@ -38,7 +36,10 @@ export const MyCalendar = () => {
   const clickModal = (props: any) => {
     const dateStr = props.dateStr;
     const event = events.filter(e => {
-      return dayjs(e.start.toString()).format('YYYY-MM-DD') == dateStr;
+      return (
+        dayjs(e.start.toString()).format('YYYY-MM-DD') <= dateStr &&
+        dayjs(e.end.toString()).format('YYYY-MM-DD') >= dateStr
+      );
     });
 
     if (event && event.length > 0) {

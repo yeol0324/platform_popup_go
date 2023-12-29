@@ -1,23 +1,26 @@
 [
   {
     "id": "1",
-    "title": "크리스마스 이브",
-    "start": "2023-12-24",
-    "end": "2023-12-24",
-    "isAllDay": true
+    "popup_name": "크리스마스 이브",
+    "popup_sdtm": "2023-12-24",
+    "popup_edtm": "2023-12-24"
   },
   {
     "id": "2",
-    "title": "크리스마스",
-    "start": "2023-12-25",
-    "end": "2023-12-25",
-    "isAllDay": true
+    "popup_name": "크리스마스",
+    "popup_sdtm": "2023-12-25",
+    "popup_edtm": "2023-12-25"
   },
   {
     "id": "3",
-    "title": "내일 출근",
-    "start": "2023-12-25",
-    "end": "2023-12-25",
-    "isAllDay": true
+    "popup_name": "내일 출근",
+    "popup_sdtm": "2023-12-25 09:00:00",
+    "popup_edtm": "2023-12-25 18:00:00"
+  },
+  {
+    "id": "4",
+    "popup_name": "휴가",
+    "popup_sdtm": "2023-12-22",
+    "popup_edtm": "2023-12-26"
   }
 ]
