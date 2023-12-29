@@ -9,11 +9,31 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import CalendarPopup from './CalendarPopup';
 import dayjs from 'dayjs';
 import MyEvent from './MyEvent';
+import eventDummy from '../../public/dummy/event.json';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 
 export const MyCalendar = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<MyEvent[] | undefined>();
   const plugins = [interactionPlugin, dayGridPlugin, timeGridPlugin];
+
+  const router = useRouter();
+
+  const events: any[] = [];
+  const dummys = eventDummy;
+
+  if (dummys && dummys.length > 0) {
+    dummys.map(dummy => {
+      events.push({
+        id: dummy.id,
+        title: dummy.title,
+        start: new Date(dummy.start),
+        end: new Date(dummy.end),
+        isAllDay: dummy.isAllDay,
+      });
+    });
+  }
 
   const clickModal = (props: any) => {
     const dateStr = props.dateStr;
@@ -32,39 +52,9 @@ export const MyCalendar = () => {
     }
   };
 
-  const events = [
-    {
-      title: '크리스마스 이브',
-      start: new Date('2023-12-24'),
-      end: new Date('2023-12-24'),
-      isAllDay: true,
-    },
-    {
-      title: '크리스마스',
-      start: new Date('2023-12-25'),
-      end: new Date('2023-12-25'),
-      isAllDay: true,
-    },
-    {
-      title: '내일 출근',
-      start: new Date('2023-12-25'),
-      end: new Date('2023-12-25'),
-      isAllDay: true,
-    },
-  ];
-
-  // const dateClick = (info: any) => {
-  //   console.log(info.dateStr);
-  //   const event = {
-  //     title: '추가',
-  //     start: new Date(info.dateStr),
-  //     end: new Date(info.dateStr),
-  //     isAllDay: true,
-  //   };
-
-  //   console.log('events', events);
-  //   events.push(event);
-  // };
+  const clickEvent = (props: any) => {
+    console.log(props);
+  };
 
   const eventContent = (eventInfo: EventContentArg) => {
     const isAllDay = eventInfo.event.allDay;
@@ -78,6 +68,9 @@ export const MyCalendar = () => {
           padding: 5,
           color: '#fff',
           fontWeight: 600,
+        }}
+        onClick={() => {
+          router.push(`/popup/${eventInfo.event.id}`);
         }}
       >
         {eventInfo.event.title}
@@ -110,6 +103,7 @@ export const MyCalendar = () => {
           list: '리스트',
         }}
         dateClick={clickModal}
+        eventClick={clickEvent}
         // eventChange={eventChange} // 이벤트 drop 혹은 resize 될 때
         editable={true} // 사용자의 수정 가능 여부 (이벤트 추가/수정, 드래그 앤 드롭 활성화)
         selectable={true} // 사용자의 날짜 선택 여부
