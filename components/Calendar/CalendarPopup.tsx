@@ -1,7 +1,7 @@
 import React from 'react';
+import MyEvent from './MyEvent';
 
-const CalendarPopup = (props: any, event: any) => {
-  const { clickModal } = props;
+const CalendarPopup = ({ clickModal, myEvent }: { clickModal: any; myEvent: MyEvent[] }) => {
   return (
     <div
       onClick={clickModal}
@@ -28,7 +28,10 @@ const CalendarPopup = (props: any, event: any) => {
           backgroundColor: '#ffffff',
         }}
       >
-        <h4>일정입력</h4>
+        <h3>팝업상세</h3>
+        {myEvent.map((event, index) => (
+          <p key={index}>{event.title}</p>
+        ))}
       </div>
     </div>
   );

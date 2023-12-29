@@ -8,28 +8,27 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import CalendarPopup from './CalendarPopup';
 import dayjs from 'dayjs';
+import MyEvent from './MyEvent';
 
 export const MyCalendar = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState();
+  const [selectedEvent, setSelectedEvent] = useState<MyEvent[] | undefined>();
   const plugins = [interactionPlugin, dayGridPlugin, timeGridPlugin];
 
   const clickModal = (props: any) => {
     const dateStr = props.dateStr;
-    console.log('dateStr', dateStr);
     const event = events.filter(e => {
       return dayjs(e.start.toString()).format('YYYY-MM-DD') == dateStr;
     });
 
     if (event && event.length > 0) {
-      console.log('event', event);
       // TODO:: 이벤트 set
+      setSelectedEvent(event);
       setShowModal(!showModal);
     } else {
       if (showModal) {
         setShowModal(!showModal);
       }
-      console.log('no data');
     }
   };
 
@@ -42,6 +41,12 @@ export const MyCalendar = () => {
     },
     {
       title: '크리스마스',
+      start: new Date('2023-12-25'),
+      end: new Date('2023-12-25'),
+      isAllDay: true,
+    },
+    {
+      title: '내일 출근',
       start: new Date('2023-12-25'),
       end: new Date('2023-12-25'),
       isAllDay: true,
@@ -82,7 +87,7 @@ export const MyCalendar = () => {
 
   return (
     <>
-      {showModal && <CalendarPopup clickModal={clickModal} />}
+      {showModal && <CalendarPopup clickModal={clickModal} myEvent={selectedEvent ?? []} />}
       <FullCalendar
         locale="kr"
         plugins={plugins}
