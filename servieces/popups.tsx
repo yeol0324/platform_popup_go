@@ -8,6 +8,6 @@ export async function getAllPopups() {
   return { data, error };
 }
 export async function getPopup(id: number) {
-  const { data, error } = await supabase.from('TB_POPUP_STORE').select('*').returns<PopupData>();
+  const { data, error } = await supabase.from('TB_POPUP_STORE').select('*').eq('id', id).returns<[PopupData]>();
   return { data, error };
 }

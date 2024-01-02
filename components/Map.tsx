@@ -2,11 +2,7 @@
 import Script from 'next/script';
 import { useEffect, useRef } from 'react';
 import { NaverMap, NaverMapMarker, NaverMapInfoWindow, Coordinates } from '@/types/map';
-// import useSupabase from '@/hooks/useSupabase';
-import { getAllPopups } from '@/servieces/popups';
-
 import { PopupData } from '@/types/popup';
-import Link from 'next/link';
 
 type Props = {
   mapId?: string;
@@ -15,11 +11,10 @@ type Props = {
 };
 
 // TODO: 네이버 로고
-export const Map = async ({ mapId = 'map', initialZoom = 14, data }: Props) => {
+export const Map = ({ mapId = 'map', initialZoom = 14, data }: Props) => {
   const mapRef = useRef<NaverMap | null>(null);
   const markerRef = useRef<NaverMapMarker[]>([]);
   const infoWindowRef = useRef<NaverMapInfoWindow[]>([]);
-  // const { data, error } = useSupabase<PopupData>('TB_POPUP_STORE');
 
   const getCoords = async () => {
     if (typeof window == 'undefined') return null;
@@ -31,8 +26,12 @@ export const Map = async ({ mapId = 'map', initialZoom = 14, data }: Props) => {
   const initializeMap = () => {
     getCoords().then(pos => {
       if (pos === null) return;
+      const center =
+        data.length === 1
+          ? [Number(data[0].latitude), Number(data[0].longitude)]
+          : [pos.coords.latitude, pos.coords.longitude];
       const mapOptions = {
-        center: new window.naver.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+        center: new window.naver.maps.LatLng(center[0], center[1]),
         zoom: initialZoom,
         minZoom: 10,
         scaleControl: false,
