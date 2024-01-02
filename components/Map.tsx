@@ -3,16 +3,20 @@ import Script from 'next/script';
 import { useEffect, useRef, useState } from 'react';
 import { NaverMap, NaverMapMarker, NaverMapInfoWindow, Coordinates } from '@/types/map';
 import Box from './Box';
+import useSupabase from '@/hooks/useSupabase';
+import { PopupData } from '@/types/popup';
+
 type Props = {
   mapId?: string;
   initialZoom?: number;
-  onLoad?: (map: NaverMap) => void;
 };
+
 // TODO: 네이버 로고
-export const Map = ({ mapId = 'map', initialZoom = 14, onLoad }: Props) => {
+export const Map = ({ mapId = 'map', initialZoom = 14 }: Props) => {
   const mapRef = useRef<NaverMap | null>(null);
   const markerRef = useRef<NaverMapMarker[]>([]);
   const infoWindowRef = useRef<NaverMapInfoWindow[]>([]);
+  const { data, error } = useSupabase<PopupData>('TB_POPUP_STORE');
 
   const getCoords = async () => {
     if (typeof window == 'undefined') return null;
@@ -32,23 +36,18 @@ export const Map = ({ mapId = 'map', initialZoom = 14, onLoad }: Props) => {
         mapDataControl: false,
         zoomControl: false,
       };
-      const popups = [
-        { lat: pos.coords.latitude, long: pos.coords.longitude, name: '현재위치', id: 'd0101' },
-        { lat: 37.51257481796187, long: 127.10554161154047, name: '롯데월드', id: 'd0102' },
-      ];
       //새로운 네이버 맵 인스턴스 생성
       const map = new window.naver.maps.Map(mapId, mapOptions);
-
-      popups.map((item: { lat: number; long: number; name: string; id: string }) => {
+      data?.map((item: PopupData) => {
         markerRef.current.push(
           new naver.maps.Marker({
-            position: new naver.maps.LatLng(item?.lat, item?.long),
+            position: new naver.maps.LatLng(Number(item?.latitude), Number(item?.longitude)),
             map: map,
-            title: item.name,
+            title: item.popup_name,
           })
         );
         const infoWindow = new naver.maps.InfoWindow({
-          content: `<div key=${item.id}>${item.name}<a href="/popup/${item.id}">상세페이지</a></div>`,
+          content: `<div key=${item.id}>${item.popup_name}<a href="/popup/${item.id}">상세페이지</a></div>`,
         });
         infoWindowRef.current.push(infoWindow);
       });
@@ -62,26 +61,26 @@ export const Map = ({ mapId = 'map', initialZoom = 14, onLoad }: Props) => {
           }
         };
       }
-      // add marker click event
+      // marker click event
       markerRef.current.forEach((element, i) => {
         naver.maps.Event.addListener(element, 'click', getClickHandler(i));
       });
 
       mapRef.current = map;
-
-      if (onLoad) {
-        onLoad(map);
-      }
     });
-  }; //맵이 unmount되었을 때 맵 인스턴스 destory하기
-  //
-
+  };
+  useEffect(() => {
+    if (data) initializeMap();
+    return () => {
+      console.log('dataClean', data);
+    };
+  }, [data]);
+  //맵이 unmount되었을 때 맵 인스턴스 destory
   useEffect(() => {
     return () => {
       mapRef.current?.destroy();
     };
   }, []);
-
   return (
     <>
       <div id={mapId} style={{ width: '100%', height: '100%' }} />
@@ -89,7 +88,6 @@ export const Map = ({ mapId = 'map', initialZoom = 14, onLoad }: Props) => {
         strategy="afterInteractive"
         type="text/javascript"
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
-        onReady={initializeMap}
       />
     </>
   );
