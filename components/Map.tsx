@@ -1,22 +1,25 @@
 'use client';
 import Script from 'next/script';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { NaverMap, NaverMapMarker, NaverMapInfoWindow, Coordinates } from '@/types/map';
-import Box from './Box';
-import useSupabase from '@/hooks/useSupabase';
+// import useSupabase from '@/hooks/useSupabase';
+import { getAllPopups } from '@/servieces/popups';
+
 import { PopupData } from '@/types/popup';
+import Link from 'next/link';
 
 type Props = {
   mapId?: string;
   initialZoom?: number;
+  data: PopupData[];
 };
 
 // TODO: 네이버 로고
-export const Map = ({ mapId = 'map', initialZoom = 14 }: Props) => {
+export const Map = async ({ mapId = 'map', initialZoom = 14, data }: Props) => {
   const mapRef = useRef<NaverMap | null>(null);
   const markerRef = useRef<NaverMapMarker[]>([]);
   const infoWindowRef = useRef<NaverMapInfoWindow[]>([]);
-  const { data, error } = useSupabase<PopupData>('TB_POPUP_STORE');
+  // const { data, error } = useSupabase<PopupData>('TB_POPUP_STORE');
 
   const getCoords = async () => {
     if (typeof window == 'undefined') return null;
@@ -69,12 +72,6 @@ export const Map = ({ mapId = 'map', initialZoom = 14 }: Props) => {
       mapRef.current = map;
     });
   };
-  useEffect(() => {
-    if (data) initializeMap();
-    return () => {
-      console.log('dataClean', data);
-    };
-  }, [data]);
   //맵이 unmount되었을 때 맵 인스턴스 destory
   useEffect(() => {
     return () => {
@@ -88,6 +85,7 @@ export const Map = ({ mapId = 'map', initialZoom = 14 }: Props) => {
         strategy="afterInteractive"
         type="text/javascript"
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
+        onLoad={initializeMap}
       />
     </>
   );

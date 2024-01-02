@@ -1,9 +1,12 @@
 import { Map } from '@/components/Map';
+import { getAllPopups } from '@/servieces/popups';
 
-export default function List() {
+export default async function List() {
+  const { data, error } = await getAllPopups();
+
   return (
     <div className="map-home" style={{ width: '100%', height: ' 100%' }}>
-      <Map />
+      {data && <Map data={data} />}
     </div>
   );
 }
