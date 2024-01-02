@@ -22,5 +22,11 @@
     "popup_name": "휴가",
     "popup_sdtm": "2023-12-22",
     "popup_edtm": "2023-12-26"
+  },
+  {
+    "id": "5",
+    "popup_name": "2024년 시작",
+    "popup_sdtm": "2024-01-01",
+    "popup_edtm": "2024-01-05"
   }
 ]

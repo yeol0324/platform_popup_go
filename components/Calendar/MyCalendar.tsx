@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-calendar/dist/Calendar.css'; // css import
 import FullCalendar from '@fullcalendar/react';
 import { DatesSetArg, EventApi, EventContentArg } from '@fullcalendar/core';
@@ -11,31 +11,70 @@ import dayjs from 'dayjs';
 import MyEvent from './MyEvent';
 import eventDummy from '../../public/dummy/event.json';
 import { usePathname, useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export const MyCalendar = () => {
   const [showModal, setShowModal] = useState(false);
+  const [popupEvents, setPopupEvents] = useState<
+    | {
+        id: string;
+        title: string;
+        start: Date;
+        end: Date;
+        location: string;
+        info_url: string;
+        image_url: string;
+        reservate_url: string;
+        isAllDay: boolean;
+      }[]
+    | undefined
+  >();
   const [selectedEvent, setSelectedEvent] = useState<MyEvent[] | undefined>();
   const plugins = [interactionPlugin, dayGridPlugin, timeGridPlugin];
 
   const router = useRouter();
 
-  const events: any[] = [];
-  const dummys = eventDummy;
+  const supabase = createClientComponentClient<any>();
 
-  if (dummys && dummys.length > 0) {
-    dummys.map(dummy => {
-      events.push({
-        id: dummy.id,
-        title: dummy.popup_name,
-        start: new Date(dummy.popup_sdtm),
-        end: new Date(dummy.popup_edtm),
-      });
-    });
-  }
+  useEffect(() => {
+    async function fetchEvents() {
+      const events: any[] = [];
+      const { data, error } = await supabase.from('TB_POPUP_STORE').select();
+      // console.log('data', data);
+      if (data && data.length > 0) {
+        data.map(d => {
+          events.push({
+            id: d.id,
+            title: d.popup_name,
+            start: new Date(d.popup_sdtm),
+            end: new Date(d.popup_edtm),
+            location: d.location,
+            info_url: d.info_url,
+            image_url: d.image_url,
+            reservate_url: d.reservate_url,
+          });
+        });
+        setPopupEvents(events);
+      }
+    }
+    fetchEvents();
+  }, []);
+
+  // const dummys = eventDummy;
+  // if (dummys && dummys.length > 0) {
+  //   dummys.map(dummy => {
+  //     events.push({
+  //       id: dummy.id,
+  //       title: dummy.popup_name,
+  //       start: new Date(dummy.popup_sdtm),
+  //       end: new Date(dummy.popup_edtm),
+  //     });
+  //   });
+  // }
 
   const clickModal = (props: any) => {
     const dateStr = props.dateStr;
-    const event = events.filter(e => {
+    const event = popupEvents!.filter(e => {
       return (
         dayjs(e.start.toString()).format('YYYY-MM-DD') <= dateStr &&
         dayjs(e.end.toString()).format('YYYY-MM-DD') >= dateStr
@@ -80,12 +119,12 @@ export const MyCalendar = () => {
   };
 
   return (
-    <>
+    <div>
       {showModal && <CalendarPopup clickModal={clickModal} myEvent={selectedEvent ?? []} />}
       <FullCalendar
         locale="kr"
         plugins={plugins}
-        events={events}
+        events={popupEvents}
         eventContent={eventContent}
         headerToolbar={{
           left: 'title',
@@ -114,6 +153,6 @@ export const MyCalendar = () => {
         dayMaxEvents={true} // 하루에 표시 될 최대 이벤트 수 true = 셀의 높이
         navLinks={true} // 달력의 날짜 클릭시 일간 스케쥴로 이동
       />
-    </>
+    </div>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import MyEvent from './MyEvent';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 
 const CalendarPopup = ({ clickModal, myEvent }: { clickModal: any; myEvent: MyEvent[] }) => {
   return (
@@ -29,13 +30,25 @@ const CalendarPopup = ({ clickModal, myEvent }: { clickModal: any; myEvent: MyEv
           backgroundColor: '#ffffff',
         }}
       >
-        <h3>팝업상세</h3>
+        <h3>팝업 목록</h3>
         {myEvent.map((event, index) => (
-          <div key={index}>
+          <Link
+            key={index}
+            style={{
+              borderRadius: '0.313rem',
+              backgroundColor: '#DDE7E7',
+              paddingLeft: '1rem',
+              marginTop: '1rem',
+              textDecoration: 'inherit',
+              color: 'inherit',
+            }}
+            href={`/popup/${event.id}`}
+          >
             <h4>{event.title}</h4>
             <p>시작 : {dayjs(event.start).format('YYYY년 MM월 DD일')}</p>
             <p hidden={event.start == event.end ? true : false}>종료 : {dayjs(event.end).format('YYYY년 MM월 DD일')}</p>
-          </div>
+            <p>위치 : {event.location}</p>
+          </Link>
         ))}
       </div>
     </div>
