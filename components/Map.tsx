@@ -5,11 +5,11 @@ import { NaverMap, NaverMapMarker, NaverMapInfoWindow, Coordinates } from '@/typ
 import Box from './Box';
 type Props = {
   mapId?: string;
-  initialCenter?: Coordinates;
   initialZoom?: number;
   onLoad?: (map: NaverMap) => void;
 };
-export const Map = ({ mapId = 'map', initialCenter = [37.5262411, 126.99289439], initialZoom = 13, onLoad }: Props) => {
+// TODO: 네이버 로고
+export const Map = ({ mapId = 'map', initialZoom = 14, onLoad }: Props) => {
   const mapRef = useRef<NaverMap | null>(null);
   const markerRef = useRef<NaverMapMarker[]>([]);
   const infoWindowRef = useRef<NaverMapInfoWindow[]>([]);
@@ -27,10 +27,10 @@ export const Map = ({ mapId = 'map', initialCenter = [37.5262411, 126.99289439],
       const mapOptions = {
         center: new window.naver.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
         zoom: initialZoom,
-        minZoom: 9,
+        minZoom: 10,
         scaleControl: false,
         mapDataControl: false,
-        zoomControl: true,
+        zoomControl: false,
       };
       const popups = [
         { lat: pos.coords.latitude, long: pos.coords.longitude, name: '현재위치', id: 'd0101' },
@@ -84,7 +84,7 @@ export const Map = ({ mapId = 'map', initialCenter = [37.5262411, 126.99289439],
 
   return (
     <>
-      <div id={mapId} style={{ width: '500px', height: '500px' }} />
+      <div id={mapId} style={{ width: '100%', height: '100%' }} />
       <Script
         strategy="afterInteractive"
         type="text/javascript"

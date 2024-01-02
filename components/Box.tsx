@@ -1,15 +1,15 @@
 'use client';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { HTMLAttributes } from 'react';
 
-interface BoxProps {
+interface BoxProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
-  className?: string;
 }
 
-const Box: React.FC<BoxProps> = ({ children, className }) => {
+const Box: React.FC<BoxProps> = ({ children, ...props }) => {
   const Div = styled.div({ backgroundColor: 'pink', fontSize: '4rem' });
-  return <Div>{children}</Div>;
+  return <Div {...props}>{children}</Div>;
 };
 
 export default Box;
