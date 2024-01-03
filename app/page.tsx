@@ -1,12 +1,7 @@
 import Link from 'next/link';
-// import Button from '@/components/Button';
-import Box from '@/components/Box';
+import Box from '@/components/Box/Box';
+import Button from '@/components/Button/Button';
 import { Input } from '@/components/Input';
-import dynamic from 'next/dynamic';
-import Button from '@/components/Button';
-// const Button = dynamic(() => import('@/components/Button'), {
-//   ssr: false,
-// });
 
 export default function Home() {
   return (

@@ -1,0 +1,11 @@
+.bottomNav {
+  display: flex;
+  position: fixed;
+  padding: 10px;
+  bottom: 0;
+  justify-content: space-around;
+  width: 100%;
+  z-index: 10;
+  background: $gray0;
+  border-radius: 20px 20px 0 0;
+}
