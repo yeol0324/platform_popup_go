@@ -1,6 +1,6 @@
 {
   "extends": "next/core-web-vitals",
-  "plugins": ["@typescript-eslint", "import", "prettier", "react", "@emotion"],
+  "plugins": ["@typescript-eslint", "import", "prettier", "react"],
   "rules": {
     "react/no-unknown-property": ["error", { "ignore": ["css"] }]
   }

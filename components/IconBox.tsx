@@ -1,6 +1,4 @@
 'use client';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import { HTMLAttributes } from 'react';
 
 interface BoxProps extends HTMLAttributes<HTMLDivElement> {
@@ -8,8 +6,7 @@ interface BoxProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export default function IconBox({ children, ...props }: BoxProps) {
-  const Div = styled.div({ backgroundColor: 'pink', fontSize: '1rem' });
-  return <Div {...props}>{children}</Div>;
+  return <div {...props}>{children}</div>;
 }
 
 interface IconProps {
@@ -23,8 +20,6 @@ interface LabelProps {
   children: React.ReactNode;
 }
 const Label = ({ children }: LabelProps) => {
-  const Div = styled.div({ backgroundColor: 'pink', fontSize: '1rem' });
-
-  return <Div>{children}</Div>;
+  return <div>{children}</div>;
 };
 IconBox.Label = Label;

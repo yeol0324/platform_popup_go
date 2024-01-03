@@ -27,8 +27,6 @@
 
 ## styles
 
-https://www.howdy-mj.me/css/emotionjs-intro
+- scss 사용
 
-- emotion
-- 공통(반복되는) style은 emotion css props 를 사용하되, 재사용을 위해 개별적이거나 동적 스타일인 경우의 style 은 inline style 을 사용함
-- styles/global.tsx
+- styles/global.scss

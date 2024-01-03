@@ -1,32 +1,20 @@
 'use client';
-// import styled from '@emotion/styled';
-import theme from '@/styles/theme';
-import styled from '@emotion/styled';
+import React from 'react';
 import Link from 'next/link';
 import IconBox from '../IconBox';
 
-// TODO: emotion ssr 적용
-// import { basicStyles } from '@/styles/styles';
-// const Button = styled.button({
-//   background: ,
-// });
-const StyleComponent = styled.div`
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  z-index: 10;
-  background-color: ${props => props.theme.palette.teal0};
-`;
+const footerStyle = {
+  display: 'flex',
+  position: 'fixed' as 'fixed',
+  bottom: 0,
+  justifyContent: 'space-around',
+  width: '100%',
+  zIndex: 10,
+  backgroundColor: 'black',
+};
 export default function Footer() {
   return (
-    <StyleComponent
-      id="footer"
-      // css={theme => ({
-      //   backgroundColor: theme.palette.sat,
-      // })}
-    >
+    <div id="footer" style={footerStyle}>
       <Link href={'/calendar'}>
         <IconBox>
           <IconBox.Icon name="calendar" />
@@ -46,6 +34,6 @@ export default function Footer() {
         </IconBox>
       </Link>
       {/* <div css={basicStyles}>menu</div> */}
-    </StyleComponent>
+    </div>
   );
 }
