@@ -1,25 +1,25 @@
 import Link from 'next/link';
-import Box from '@/components/Box/Box';
-import Button from '@/components/Button/Button';
-import { Input } from '@/components/Input';
+import { Box, FlexBox, RoundButton, Input, IconBox, Button } from '@/components';
+import Spine from '@/components/Spine/Spine';
 
 export default function Home() {
   return (
     <div>
-      <Link href="/map/" className="flex" style={{ fontSize: '10rem' }}>
-        map
-      </Link>
-      <Link href="/calendar/" className="flex" style={{ fontSize: '10rem' }}>
-        calendar
-      </Link>
       <Box>hh</Box>
-      <Button>hi</Button>
-      <Input bottomText="hi">
-        {/* <Input.Label>
-          <div>하하</div>
-        </Input.Label> */}
-        <Input.TextField></Input.TextField>
+      <Box className="mb-100">
+        <div>3</div>
+        <div>4</div>
+      </Box>
+      <RoundButton>hi</RoundButton>
+      <Input>
+        <Input.Label>로그인 하려면 어쩌고 저쩌고 라벨</Input.Label>
+        <FlexBox>
+          <IconBox iconName="person" />
+          <Input.TextField></Input.TextField>
+          <Button>확인</Button>
+        </FlexBox>
       </Input>
+      <Spine></Spine>
     </div>
   );
 }

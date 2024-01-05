@@ -1,0 +1,46 @@
+/******************************/
+/*     magin padding mixin    */
+/******************************/
+/**px List**/
+@function sizepm($start, $end) {
+  $sizepm: ();
+  @for $i from $start through $end {
+    $value: $i + 0;
+    $sizepm: append($sizepm, $value);
+  }
+  @return $sizepm;
+}
+@function getRem($value) {
+  @if $value == 0 {
+    @return $value;
+  } @else {
+    @return #{$value / $defaultSize}rem;
+  }
+}
+$sizepm: sizepm(0, 100);
+
+$position: (
+  'l': 'left',
+  'r': 'right',
+  't': 'top',
+  'b': 'bottom',
+);
+$nameMap: (
+  'm': 'margin',
+  'p': 'padding',
+);
+
+$colorSet: (
+  KOR-dark: #dba51b,
+  //   KOR-normal: #ffef5b,
+  //   KOR-light: #fff9c5,
+  //   KOR-spc: #dba51b,,,,,,,,,,
+);
+$colorTarget: (
+  'board': 'border-color',
+  'fill': 'background-color',
+  'font': 'color',
+);
+
+@include generate($nameMap, $position, $sizepm);
+@include subjColorGenerate($colorTarget, $colorSet);

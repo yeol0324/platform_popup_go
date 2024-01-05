@@ -5,7 +5,6 @@
 - node v18 / npm v9
 - next v14
 - typescript v5
-- emotion 11
 
 ## convention
 
@@ -29,4 +28,8 @@
 
 - scss 사용
 
-- styles/global.scss
+- styles/global.scss [ html초기화 ]
+- styles/\_index.scss
+- styles/\_variables.scss [ 변수 설정: default color, default size ]
+- styles/\_generate.scss [ ]
+- styles/\_icon.scss [ 아이콘 모음 ]

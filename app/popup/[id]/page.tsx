@@ -1,5 +1,5 @@
 import { getAllPopups, getPopup } from '@/servieces/popups';
-import { Map } from '@/components/Map';
+import { Map } from '@/components/Map/Map';
 
 export default async function PopupDetail({ params }: { params: { id: number } }) {
   const { data, error } = await getPopup(params.id);

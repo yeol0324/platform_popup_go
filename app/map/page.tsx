@@ -1,4 +1,4 @@
-import { Map } from '@/components/Map';
+import { Map } from '@/components/Map/Map';
 import { getAllPopups } from '@/servieces/popups';
 
 export default async function List() {

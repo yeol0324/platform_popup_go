@@ -1,0 +1,65 @@
+/*    fonts   */
+// .txt-cl {
+//   &--pn {
+//     color: $primary-normal;
+//   }
+//   &--pd {
+//     color: $primary-dark;
+//   }
+//   &--sn {
+//     color: $secondary-normal;
+//   }
+//   &--sd {
+//     color: $secondary-dark;
+//   }
+//   &--gn {
+//     color: $gray-07;
+//   }
+//   &--gd {
+//     color: $secondary-dark;
+//   }
+// }
+
+.txt-weight {
+  &--l {
+    font-weight: 300;
+  }
+  &--r {
+    font-weight: 400;
+  }
+  &--b {
+    font-weight: 700;
+  }
+  &--eb {
+    font-weight: 800;
+  }
+}
+.txt-size {
+  &--1 {
+    font-size: 10px;
+  }
+  &--2 {
+    font-size: 0.75rem;
+  }
+  &--3 {
+    font-size: 0.875rem;
+  }
+  &--4 {
+    font-size: 1rem;
+  }
+  &--5 {
+    font-size: 1.125rem;
+  }
+  &--6 {
+    font-size: 1.25rem;
+  }
+  &--7 {
+    font-size: 1.375rem;
+  }
+  &--8 {
+    font-size: 1.5rem;
+  }
+}
+.txt-field {
+  line-height: 140%;
+}

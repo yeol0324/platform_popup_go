@@ -1,0 +1,50 @@
+@mixin center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@mixin space-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+@mixin flex-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+@mixin background-center {
+  background-repeat: no-repeat;
+  background-position: center;
+}
+@mixin generate($nameMap: (), $position: (), $sizepm: ()) {
+  @each $preKey, $preValue in $nameMap {
+    @each $px in $sizepm {
+      .#{$preKey}-#{$px} {
+        #{$preValue}: getRem($px);
+      }
+      @each $sufKey, $sufValue in $position {
+        .#{$preKey}#{$sufKey}-#{$px} {
+          #{$preValue}-#{$sufValue}: getRem($px);
+        }
+      }
+    }
+  }
+}
+
+@mixin subjColorGenerate($t: (), $c: ()) {
+  @each $tN, $tV in $t {
+    @each $cN, $cV in $c {
+      .subj-cl-#{$tN} {
+        &.#{$cN} {
+          #{$tV}: $cV;
+        }
+      }
+    }
+  }
+}
