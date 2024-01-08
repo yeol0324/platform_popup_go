@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Box, FlexBox, RoundButton, Input, IconBox, Button } from '@/components';
-import Spine from '@/components/Spine/Spine';
 
 export default function Home() {
   return (
@@ -19,7 +18,6 @@ export default function Home() {
           <Button>확인</Button>
         </FlexBox>
       </Input>
-      <Spine></Spine>
     </div>
   );
 }

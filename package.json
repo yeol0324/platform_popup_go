@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@esotericsoftware/spine-player": "^4.2.34",
     "@fullcalendar/core": "^6.1.10",
     "@fullcalendar/daygrid": "^6.1.10",
     "@fullcalendar/interaction": "^6.1.10",
@@ -25,6 +24,7 @@
     "react": "^18",
     "react-calendar": "^4.7.0",
     "react-dom": "^18",
+    "sass": "^1.69.7",
     "swr": "^2.2.4",
     "types": "^0.1.1"
   },
