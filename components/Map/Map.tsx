@@ -24,55 +24,62 @@ export const Map = ({ mapId = 'map', initialZoom = 14, data }: Props) => {
     return pos;
   };
   const initializeMap = () => {
-    getCoords().then(pos => {
-      if (pos === null) return;
-      const center =
-        data.length === 1
-          ? [Number(data[0].latitude), Number(data[0].longitude)]
-          : [pos.coords.latitude, pos.coords.longitude];
-      const mapOptions = {
-        center: new window.naver.maps.LatLng(center[0], center[1]),
-        zoom: initialZoom,
-        minZoom: 10,
-        scaleControl: false,
-        mapDataControl: false,
-        zoomControl: false,
-      };
-      //새로운 네이버 맵 인스턴스 생성
-      const map = new window.naver.maps.Map(mapId, mapOptions);
-      data?.map((item: PopupData) => {
-        markerRef.current.push(
-          new naver.maps.Marker({
-            position: new naver.maps.LatLng(Number(item?.latitude), Number(item?.longitude)),
-            map: map,
-            title: item.popup_name,
-          })
-        );
-        const infoWindow = new naver.maps.InfoWindow({
-          content: `<div key=${item.id}>${item.popup_name}<a href="/popup/${item.id}">상세페이지</a></div>`,
-        });
-        infoWindowRef.current.push(infoWindow);
-      });
-      function getClickHandler(seq: number) {
-        return function (e: NaverMapMarker) {
-          var marker = markerRef.current[seq];
-          if (infoWindowRef.current[seq].getMap()) {
-            infoWindowRef.current[seq].close();
-          } else {
-            infoWindowRef.current[seq].open(map, marker);
-          }
-        };
-      }
-      // marker click event
-      markerRef.current.forEach((element, i) => {
-        naver.maps.Event.addListener(element, 'click', getClickHandler(i));
-      });
+    console.log('실행?');
 
-      mapRef.current = map;
+    //   getCoords().then(pos => {
+    // if (pos === null) return;
+    // const center =
+    //   data.length === 1
+    //     ? [Number(data[0].latitude), Number(data[0].longitude)]
+    //     : [pos.coords.latitude, pos.coords.longitude];
+    const mapOptions = {
+      center: new window.naver.maps.LatLng(Number('37.5471777'), Number('127.0483195')),
+      zoom: initialZoom,
+      minZoom: 10,
+      scaleControl: false,
+      mapDataControl: false,
+      zoomControl: false,
+    };
+    //새로운 네이버 맵 인스턴스 생성
+    const map = new window.naver.maps.Map(mapId, mapOptions);
+    data?.map((item: PopupData) => {
+      markerRef.current.push(
+        new naver.maps.Marker({
+          position: new naver.maps.LatLng(Number(item?.latitude), Number(item?.longitude)),
+          map: map,
+          title: item.popup_name,
+        })
+      );
+      const infoWindow = new naver.maps.InfoWindow({
+        content: `<div key=${item.id}>${item.popup_name}<a href="/popup/${item.id}">상세페이지</a></div>`,
+      });
+      infoWindowRef.current.push(infoWindow);
     });
+    function getClickHandler(seq: number) {
+      return function (e: NaverMapMarker) {
+        var marker = markerRef.current[seq];
+        if (infoWindowRef.current[seq].getMap()) {
+          infoWindowRef.current[seq].close();
+        } else {
+          infoWindowRef.current[seq].open(map, marker);
+        }
+      };
+    }
+    // marker click event
+    markerRef.current.forEach((element, i) => {
+      naver.maps.Event.addListener(element, 'click', getClickHandler(i));
+    });
+
+    mapRef.current = map;
+
+    //   });
   };
   //맵이 unmount되었을 때 맵 인스턴스 destory
   useEffect(() => {
+    console.log(mapRef.current);
+    console.log(mapRef.current === null);
+
+    if (mapRef.current === null) initializeMap();
     return () => {
       mapRef.current?.destroy();
     };
